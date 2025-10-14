@@ -1,7 +1,7 @@
 # Lab 0002: Config Loader
 
-**Status**: 🚧 Coming Soon  
-**Difficulty**: Beginner to Intermediate  
+**Status**: 🚧 Coming Soon
+**Difficulty**: Beginner to Intermediate
 **Concepts**: File I/O, Data Validation, Type Hints, Design Patterns
 
 ## 🎯 Learning Objectives
@@ -23,11 +23,10 @@ This lab will teach you how to:
 - Default values and fallbacks
 - Nested configuration structures
 
-## 🚀 Coming Soon!
+## 🚀 Coming Soon
 
 This lab is currently under development. Check back soon or contribute your own implementation!
 
 ---
 
 [← Back to Main README](../../README.md)
-

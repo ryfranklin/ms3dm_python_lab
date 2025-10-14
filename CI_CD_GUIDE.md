@@ -124,7 +124,7 @@ When you push to `main` or `develop`, GitHub automatically runs:
 
 ### Multi-Stage Dockerfile
 
-```
+```text
 base        → Python 3.13 slim
 dependencies → Install pip packages
 development → Full dev environment

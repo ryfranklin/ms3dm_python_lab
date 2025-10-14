@@ -1,6 +1,6 @@
 {
   // Python Language Server - Use Pylance (powered by Pyright) for type checking
-  "python.languageServer": "Pylance",
+  "python.languageServer": "None",
   "python.analysis.typeCheckingMode": "standard",
 
   // Disable ALL legacy Python linting (Ruff extension handles this now)

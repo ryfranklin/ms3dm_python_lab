@@ -39,12 +39,12 @@ A lightweight publish/subscribe system with both synchronous and asynchronous im
 
 ### Prerequisites
 
-**Option 1: Local Development**
+#### Option 1: Local Development
 
 - Python 3.13 or higher
 - pip for package management
 
-**Option 2: Docker (Recommended)**
+#### Option 2: Docker (Recommended)
 
 - Docker and Docker Compose
 - No Python installation required!
@@ -188,7 +188,7 @@ make docker-ci       # Docker
 
 ## 🗂️ Repository Structure
 
-```
+```text
 python-learning-lab/
 ├── pyproject.toml              # Project configuration and dependencies
 ├── README.md                   # This file
@@ -352,4 +352,4 @@ Built as a practical learning resource for Python developers at all levels. Insp
 
 ---
 
-**Happy Learning! 🚀**
+Happy Learning! 🚀

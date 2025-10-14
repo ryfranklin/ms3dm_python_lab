@@ -1,7 +1,7 @@
 # Lab 0001: Event Bus
 
-**Status**: ✅ Complete  
-**Difficulty**: Beginner to Intermediate  
+**Status**: ✅ Complete
+**Difficulty**: Beginner to Intermediate
 **Concepts**: Observer Pattern, Pub/Sub, Async/Await, Defensive Programming
 
 ## 🎯 Learning Objectives
@@ -24,6 +24,7 @@ An **Event Bus** is a design pattern that enables decoupled communication betwee
 - **The Event Bus** routes messages from publishers to subscribers
 
 This pattern is used in many frameworks and systems:
+
 - Django signals
 - Node.js EventEmitter
 - Enterprise message brokers (Kafka, RabbitMQ)
@@ -32,10 +33,11 @@ This pattern is used in many frameworks and systems:
 ### Why Use an Event Bus?
 
 **Without an Event Bus:**
+
 ```python
 def create_order(user_id, items):
     order = Order.create(user_id, items)
-    
+
     # Tightly coupled dependencies
     email_service.send_confirmation(order)
     analytics.track_order(order)
@@ -44,10 +46,11 @@ def create_order(user_id, items):
 ```
 
 **With an Event Bus:**
+
 ```python
 def create_order(user_id, items):
     order = Order.create(user_id, items)
-    
+
     # Loose coupling - just publish the event
     bus.publish("order.created", order)
     # Other components subscribe independently
@@ -58,11 +61,13 @@ def create_order(user_id, items):
 This lab includes two implementations:
 
 ### 1. `EventBus` (Synchronous)
+
 - Handlers execute one at a time
 - Simple and predictable execution order
 - Best for quick operations
 
 ### 2. `AsyncEventBus` (Asynchronous)
+
 - Handlers execute concurrently with `asyncio`
 - Better performance for I/O-bound operations
 - Modern async/await syntax
@@ -139,6 +144,7 @@ await bus.publish("user.login", {"user_id": 123})
 ## 🔍 Key Features
 
 ### 1. Subscribe and Unsubscribe
+
 ```python
 # Subscribe returns a unique ID
 sub_id = bus.subscribe("event.name", handler_function)
@@ -148,6 +154,7 @@ bus.unsubscribe(sub_id)
 ```
 
 ### 2. Multiple Subscribers
+
 ```python
 # Multiple handlers can listen to the same event
 bus.subscribe("order.created", send_email)
@@ -159,6 +166,7 @@ bus.publish("order.created", order_data)
 ```
 
 ### 3. Event Isolation
+
 ```python
 # Handlers only receive events they subscribe to
 bus.subscribe("user.login", login_handler)
@@ -168,6 +176,7 @@ bus.publish("user.login", data)  # Only login_handler is called
 ```
 
 ### 4. Count Subscribers
+
 ```python
 # Total subscribers across all events
 total = bus.count_subscribers()
@@ -177,6 +186,7 @@ count = bus.count_subscribers("user.login")
 ```
 
 ### 5. Clear All Subscriptions
+
 ```python
 # Remove all handlers at once
 bus.clear()
@@ -198,6 +208,7 @@ bus.unsubscribe("")  # AssertionError!
 ```
 
 Every method includes multiple assertions to validate:
+
 - Input types (strings, callables)
 - State invariants (counts, registrations)
 - Postconditions (handlers added/removed correctly)
@@ -224,6 +235,7 @@ pytest -v
 ```
 
 Test coverage includes:
+
 - ✅ Basic functionality (subscribe, publish, unsubscribe)
 - ✅ Multiple handlers and events
 - ✅ Edge cases (empty events, no subscribers)
@@ -236,18 +248,23 @@ Test coverage includes:
 Try these challenges to deepen your understanding:
 
 ### Exercise 1: Priority Handlers
+
 Modify the EventBus to support priority levels. High-priority handlers should execute first.
 
 ### Exercise 2: Event Filtering
+
 Add support for wildcard subscriptions (e.g., `user.*` matches `user.login` and `user.logout`).
 
 ### Exercise 3: Event History
+
 Implement a method to retrieve the last N events published to the bus.
 
 ### Exercise 4: Middleware
+
 Add support for middleware functions that can intercept and transform events before handlers receive them.
 
 ### Exercise 5: Error Handling
+
 Modify the async bus to continue executing other handlers even if one raises an exception.
 
 ## 🌟 Real-World Applications
@@ -270,6 +287,7 @@ Event buses are used in:
 ## 🎓 Teaching Notes
 
 This lab is ideal for:
+
 - **Blog post**: "Building a Pub/Sub System from Scratch in Python"
 - **Video tutorial**: Live coding session with TDD approach
 - **Course module**: Design patterns or async programming course
@@ -280,4 +298,3 @@ This lab is ideal for:
 ---
 
 [← Back to Main README](../../README.md) | [View Examples →](../../examples/demo_event_bus.py) | [Open Notebook →](../../notebooks/Lab_0001_EventBus.ipynb)
-

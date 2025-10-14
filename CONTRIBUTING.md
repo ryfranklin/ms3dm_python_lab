@@ -27,7 +27,7 @@ mkdir -p lessons/lab_XXXX_topic_name
 
 Each lab should follow this structure:
 
-```
+```text
 lessons/lab_XXXX_topic_name/
 ├── __init__.py                    # Package initialization
 ├── README.md                      # Lab documentation
@@ -82,11 +82,13 @@ ruff check lessons/lab_XXXX_topic_name/
 #### Defensive Programming
 
 Use assertions to validate:
+
 - Input parameters (types, ranges, non-null)
 - State invariants
 - Postconditions
 
 Example:
+
 ```python
 def subscribe(self, event: str, handler: Callable) -> str:
     assert isinstance(event, str), "Event must be a string"
@@ -111,11 +113,11 @@ Every lab must have comprehensive tests:
 ```python
 class TestBasicFunctionality:
     """Test basic feature operations."""
-    
+
     def test_initialization(self):
         """Test that component initializes correctly."""
         pass
-    
+
     def test_basic_operation(self):
         """Test primary use case."""
         pass
@@ -163,8 +165,8 @@ Add your lab to the main `README.md`:
 
 ```markdown
 ### Lab XXXX: Topic Name
-**Status**: ✅ Complete  
-**Concepts**: Concept1, Concept2, Concept3  
+**Status**: ✅ Complete
+**Concepts**: Concept1, Concept2, Concept3
 **Location**: `lessons/lab_XXXX_topic_name/`
 
 Brief description of what the lab teaches.
@@ -254,4 +256,3 @@ Open an issue with the `question` label, and we'll be happy to help!
 ---
 
 Thank you for contributing to Python Learning Lab! Your work helps others learn and grow. 🚀
-

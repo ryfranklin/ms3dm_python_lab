@@ -1,7 +1,7 @@
 # Lab 0003: Decorators
 
-**Status**: 🚧 Coming Soon  
-**Difficulty**: Intermediate to Advanced  
+**Status**: 🚧 Coming Soon
+**Difficulty**: Intermediate to Advanced
 **Concepts**: Decorators, Higher-Order Functions, Closures, Metaprogramming
 
 ## 🎯 Learning Objectives
@@ -25,7 +25,7 @@ This lab will teach you how to:
 - Practical decorators: @retry, @cache, @validate, @time_it
 - Decorator design patterns
 
-## 🚀 Coming Soon!
+## 🚀 Coming Soon
 
 This lab is currently under development. Stay tuned for practical examples of:
 
@@ -38,4 +38,3 @@ This lab is currently under development. Stay tuned for practical examples of:
 ---
 
 [← Back to Main README](../../README.md)
-
