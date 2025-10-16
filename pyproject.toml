@@ -20,7 +20,10 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 
-dependencies = []
+dependencies = [
+    "litellm>=1.77.0",
+    "python-dotenv>=1.0.0",
+]
 
 [project.optional-dependencies]
 dev = [
