@@ -35,6 +35,14 @@ A lightweight publish/subscribe system with both synchronous and asynchronous im
 **Concepts**: Higher-Order Functions, Closures, Metaprogramming
 **Location**: `lessons/lab_0003_decorators/`
 
+### Lab 0004: AI Agent Framework
+
+**Status**: ✅ Complete
+**Concepts**: LLM Integration, Configuration Management, Agent Development
+**Location**: `lessons/lab_0004_ai_agent/`
+
+A comprehensive framework for building AI-powered conversational agents. Learn to integrate Large Language Models, manage configurations, and create interactive AI applications with memory and context management.
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -327,6 +335,7 @@ Recommended order for working through the labs:
 1. **Lab 0001: Event Bus** - Foundation in design patterns and async programming
 2. **Lab 0002: Config Loader** - Data handling and validation
 3. **Lab 0003: Decorators** - Advanced Python metaprogramming
+4. **Lab 0004: AI Agent Framework** - Modern AI integration and agent development
 
 Each lab builds on concepts from previous ones while remaining self-contained.
 
