@@ -1,0 +1,46 @@
+-- Snowflake User Setup Script for MS3DM Local Development
+-- This script creates a custom admin role and user for local development
+-- Run this script as ACCOUNTADMIN or SECURITYADMIN
+
+SHOW DATABASES;
+
+USE ROLE SECURITYADMIN;
+
+-- Create custom admin role
+CREATE ROLE IF NOT EXISTS MS3DM_LOCAL_ADMIN COMMENT='Local Dev Admin for Ryan Franklin (ms3dm)';
+
+-- Grant this role high-level privileges
+GRANT ROLE SECURITYADMIN TO ROLE MS3DM_LOCAL_ADMIN;
+GRANT ROLE SYSADMIN TO ROLE MS3DM_LOCAL_ADMIN;
+GRANT ROLE ACCOUNTADMIN TO ROLE MS3DM_LOCAL_ADMIN;
+
+-- Optional (if you want to keep it slightly less privileged):
+-- GRANT ROLE SYSADMIN TO ROLE MS3DM_LOCAL_ADMIN;
+-- GRANT ROLE SECURITYADMIN TO ROLE MS3DM_LOCAL_ADMIN;
+
+-- Allow it to create objects in main dbs
+GRANT ALL PRIVILEGES ON WAREHOUSE COMPUTE_WH TO ROLE MS3DM_LOCAL_ADMIN;
+GRANT ALL PRIVILEGES ON DATABASE ANALYTICS TO ROLE MS3DM_LOCAL_ADMIN;
+GRANT ALL PRIVILEGES ON SCHEMA ANALYTICS.PUBLIC TO ROLE MS3DM_LOCAL_ADMIN;
+
+-- Create the user with key-pair authentication
+CREATE USER IF NOT EXISTS MS3DM_LOCAL_DEV
+    LOGIN_NAME = 'MS3DM_LOCAL_DEV'
+    DISPLAY_NAME = 'Ryan Franklin Local Dev'
+    EMAIL = 'ryan@ms3dm.tech'
+    DEFAULT_ROLE = MS3DM_LOCAL_ADMIN
+    DEFAULT_WAREHOUSE = COMPUTE_WH
+    DEFAULT_NAMESPACE = ANALYTICS.PUBLIC
+    RSA_PUBLIC_KEY = 'YOUR_RSA_PUBLIC_KEY_HERE'
+    COMMENT = 'Snowpark local dev service account for ms3dm'
+    MUST_CHANGE_PASSWORD = FALSE;
+
+-- Grant the admin role to the user
+GRANT ROLE MS3DM_LOCAL_ADMIN TO USER MS3DM_LOCAL_DEV;
+
+-- Verify the setup
+SHOW ROLES LIKE 'MS3DM%';
+SHOW USERS LIKE 'MS3DM%';
+
+-- Test connection (run this after setting up your .env file)
+-- SELECT CURRENT_USER(), CURRENT_ROLE(), CURRENT_WAREHOUSE(), CURRENT_DATABASE(), CURRENT_SCHEMA();
