@@ -6,9 +6,12 @@ Handlers are called concurrently using asyncio.
 """
 
 import asyncio
+import logging
 from collections.abc import Callable, Coroutine
 from typing import Any
 from uuid import uuid4
+
+logger = logging.getLogger(__name__)
 
 
 class AsyncEventBus:
@@ -22,10 +25,9 @@ class AsyncEventBus:
         >>> import asyncio
         >>> bus = AsyncEventBus()
         >>> async def handler(event: str, payload: dict):
-        ...     print(f"Received {event}: {payload}")
+        ...     logger.info(f"Received {event}: {payload}")
         >>> sub_id = bus.subscribe("user.login", handler)
         >>> asyncio.run(bus.publish("user.login", {"user_id": 123}))
-        Received user.login: {'user_id': 123}
         1
     """
 
