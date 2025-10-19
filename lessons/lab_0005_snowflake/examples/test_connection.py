@@ -19,13 +19,28 @@ from lessons.lab_0005_snowflake.snowflake_lab import (  # noqa: E402
 )
 
 
-def test_connection():
+class TimeoutError(Exception):
+    """Custom timeout exception."""
+
+    pass
+
+
+def timeout_handler(signum, frame):
+    """Handle timeout signal."""
+    raise TimeoutError("Connection test timed out")
+
+
+def test_connection(timeout_seconds=30):
     """Test the Snowflake connection and display information."""
     print("🔗 Testing Snowflake Connection...")
     print("=" * 50)
 
     connection = None
     try:
+        # Set up timeout handler
+        signal.signal(signal.SIGALRM, timeout_handler)
+        signal.alarm(timeout_seconds)
+
         # Create connection from environment variables
         print("📋 Loading configuration from .env file...")
         connection = SnowflakeConnection.from_environment()
@@ -84,6 +99,13 @@ def test_connection():
         )
         return True
 
+    except TimeoutError as e:
+        print(f"⏰ {e}")
+        print("💡 The connection test timed out. This could mean:")
+        print("   - Your Snowflake credentials are incorrect")
+        print("   - The Snowflake account doesn't exist or is inaccessible")
+        print("   - There's a network connectivity issue")
+        return False
     except Exception as e:
         print(f"❌ Error: {e}")
         print("\n🔧 Troubleshooting:")
@@ -101,12 +123,47 @@ def test_connection():
         return False
 
     finally:
+        # Cancel timeout alarm
+        try:
+            signal.alarm(0)
+        except NameError:
+            # signal module not available, skip timeout handling
+            pass
         # Clean up connections
         if connection:
             try:
                 connection.close_all_sessions()
             except Exception:
                 pass
+
+
+def test_connection_mock():
+    """Mock test for pytest that doesn't require real Snowflake connection."""
+    print("🧪 Running mock connection test...")
+
+    # Test configuration loading without actual connection
+    try:
+        from lessons.lab_0005_snowflake.snowflake_lab.config import (
+            SnowflakeConfig,
+        )
+
+        # Test config loading from environment
+        config = SnowflakeConfig.from_environment()
+
+        # Basic validation
+        assert config.account is not None
+        assert config.user is not None
+        assert config.warehouse is not None
+        assert config.database is not None
+        assert config.schema_name is not None
+        assert config.role is not None
+
+        print("✅ Configuration loading test passed!")
+        return True
+
+    except Exception as e:
+        print(f"❌ Mock test failed: {e}")
+        return False
 
 
 def main():

@@ -11,8 +11,8 @@ from pydantic import BaseModel, ValidationError
 from ..config_loader.config_manager import ConfigManager
 
 
-class TestConfig(BaseModel):
-    """Test Pydantic model for validation."""
+class SampleConfig(BaseModel):
+    """Sample Pydantic model for validation."""
 
     database_url: str
     api_timeout: int = 30
@@ -139,8 +139,8 @@ class TestConfigManager:
         }
         manager = ConfigManager(config_data)
 
-        validated = manager.validate(TestConfig)
-        assert isinstance(validated, TestConfig)
+        validated = manager.validate(SampleConfig)
+        assert isinstance(validated, SampleConfig)
         assert validated.database_url == "postgresql://localhost:5432/test"
         assert validated.api_timeout == 60
         assert validated.debug is True
@@ -155,7 +155,7 @@ class TestConfigManager:
         manager = ConfigManager(config_data)
 
         with pytest.raises(ValidationError):
-            manager.validate(TestConfig)
+            manager.validate(SampleConfig)
 
     def test_get_validated(self):
         """Test getting validated configuration."""
@@ -166,9 +166,9 @@ class TestConfigManager:
         assert manager.get_validated() is None
 
         # After validation
-        manager.validate(TestConfig)
+        manager.validate(SampleConfig)
         validated = manager.get_validated()
-        assert isinstance(validated, TestConfig)
+        assert isinstance(validated, SampleConfig)
 
     def test_update_with_config_manager(self):
         """Test updating with another ConfigManager."""
@@ -320,11 +320,11 @@ DEBUG=true
             f.flush()
 
             manager = ConfigManager.load_from_file(
-                f.name, validate_with=TestConfig
+                f.name, validate_with=SampleConfig
             )
 
             validated = manager.get_validated()
-            assert isinstance(validated, TestConfig)
+            assert isinstance(validated, SampleConfig)
             assert validated.database_url == "postgresql://localhost:5432/test"
 
             # Clean up

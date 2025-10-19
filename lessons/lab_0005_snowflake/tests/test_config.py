@@ -329,13 +329,39 @@ SNOWFLAKE_LOG_LEVEL=DEBUG
             f.write(env_content)
             f.flush()
 
-            config = SnowflakeConfig.from_env_file(f.name)
+            # Temporarily clear environment variables to avoid interference
+            import os
 
-            assert config.account == "test_account"
-            assert config.user == "test_user"
-            assert config.password == "test_password"
-            assert config.connection_timeout == 120
-            assert config.log_level == "DEBUG"
+            original_env = {}
+            env_vars_to_clear = [
+                "SNOWFLAKE_ACCOUNT",
+                "SNOWFLAKE_USER",
+                "SNOWFLAKE_WAREHOUSE",
+                "SNOWFLAKE_DATABASE",
+                "SNOWFLAKE_SCHEMA",
+                "SNOWFLAKE_ROLE",
+                "SNOWFLAKE_PASSWORD",
+                "SNOWFLAKE_CONNECTION_TIMEOUT",
+                "SNOWFLAKE_LOG_LEVEL",
+            ]
+
+            for var in env_vars_to_clear:
+                if var in os.environ:
+                    original_env[var] = os.environ[var]
+                    del os.environ[var]
+
+            try:
+                config = SnowflakeConfig.from_env_file(f.name)
+
+                assert config.account == "test_account"
+                assert config.user == "test_user"
+                assert config.password == "test_password"
+                assert config.connection_timeout == 120
+                assert config.log_level == "DEBUG"
+            finally:
+                # Restore original environment
+                for var, value in original_env.items():
+                    os.environ[var] = value
 
             # Clean up
             Path(f.name).unlink()

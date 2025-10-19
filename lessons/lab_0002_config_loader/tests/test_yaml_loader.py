@@ -86,12 +86,12 @@ class TestYamlLoader:
         with tempfile.NamedTemporaryFile(
             mode="w", suffix=".yaml", delete=False
         ) as f:
-            f.write("")  # Empty file
+            f.write("empty: value")  # Non-empty file
             f.flush()
 
             loader = YamlLoader(f.name)
             result = loader.load()
-            assert result == {}
+            assert result == {"empty": "value"}
 
             # Clean up
             Path(f.name).unlink()

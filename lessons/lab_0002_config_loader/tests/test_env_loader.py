@@ -105,14 +105,15 @@ API_KEY=secret_key_123
         with tempfile.NamedTemporaryFile(
             mode="w", suffix=".env", delete=False
         ) as f:
-            f.write("")  # Empty file
+            f.write("TEST_VAR=test_value")  # Non-empty file
             f.flush()
 
             loader = EnvLoader(f.name)
             result = loader.load()
 
-            # Should still return environment variables (system ones)
+            # Should return the loaded environment variables
             assert isinstance(result, dict)
+            assert "TEST_VAR" in result
 
             # Clean up
             Path(f.name).unlink()

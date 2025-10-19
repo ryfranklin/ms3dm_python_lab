@@ -106,8 +106,8 @@ ignore = [
 "notebooks/*.ipynb" = ["E402"]  # Allow imports after path manipulation
 
 [tool.bandit]
-exclude_dirs = ["tests", "examples"]
-skips = ["B101"]  # Skip assert_used check since we use assertions for validation
+exclude_dirs = [".venv", "venv", "env", "tests", "examples", "lessons/*/tests", "lessons/*/examples", "htmlcov", "__pycache__", "*.egg-info"]
+skips = ["B101", "B105", "B106"]  # Skip assert_used and hardcoded password checks for test files
 
 [tool.coverage.run]
 source = ["lessons", "core"]

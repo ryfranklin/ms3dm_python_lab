@@ -1,0 +1,3 @@
+[bandit]
+exclude_dirs = tests,examples,lessons/lab_0001_event_bus/tests,lessons/lab_0002_config_loader/tests,lessons/lab_0004_ai_agent/tests,lessons/lab_0005_snowflake/tests,htmlcov,__pycache__,.venv,venv,env,*.egg-info
+skips = B101,B105,B106
