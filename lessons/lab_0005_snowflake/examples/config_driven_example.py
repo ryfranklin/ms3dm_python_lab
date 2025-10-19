@@ -17,7 +17,7 @@ sys.path.insert(0, str(project_root))
 # Import after path manipulation
 from core import get_logger, setup_logging  # noqa: E402
 from lessons.lab_0005_snowflake.snowflake_lab import (
-    DataLoader,  # noqa: E402
+    DataLoader,
     QueryBuilder,
     SnowflakeConfigSetup,
     SnowflakeConnection,
