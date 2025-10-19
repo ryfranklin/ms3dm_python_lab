@@ -263,6 +263,7 @@ def main():
     logger.info("Snowflake Lab - Basic Operations Demo")
     logger.info("=" * 50)
 
+    connection = None
     try:
         # Test connection first
         connection = SnowflakeConnection.from_environment()
@@ -286,10 +287,11 @@ def main():
         return False
 
     finally:
-        try:
-            connection.close_all_sessions()
-        except Exception:
-            pass
+        if connection is not None:
+            try:
+                connection.close_all_sessions()
+            except Exception:
+                pass
 
 
 if __name__ == "__main__":

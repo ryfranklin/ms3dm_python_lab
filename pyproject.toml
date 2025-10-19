@@ -27,6 +27,7 @@ dependencies = [
     "pyyaml>=6.0.1",
     "pydantic>=2.12.0",  # Updated to latest Pydantic V2
     "cryptography>=41.0.0",
+    "tomli-w>=1.0.0",  # For TOML file writing support
 ]
 
 [project.optional-dependencies]

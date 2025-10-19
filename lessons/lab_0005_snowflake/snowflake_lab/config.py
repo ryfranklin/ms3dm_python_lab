@@ -102,7 +102,7 @@ class SnowflakeConfig(BaseModel):
         """
         auth_method = self.validate_auth_method()
 
-        params = {
+        params: dict[str, str | bytes] = {
             "account": self.account,
             "user": self.user,
             "warehouse": self.warehouse,
@@ -118,7 +118,8 @@ class SnowflakeConfig(BaseModel):
             private_key = self._load_private_key()
             params["private_key"] = private_key
         else:
-            params["password"] = self.password
+            if self.password is not None:
+                params["password"] = self.password
 
         return params
 
@@ -131,6 +132,10 @@ class SnowflakeConfig(BaseModel):
         Raises:
             ValueError: If private key cannot be loaded
         """
+        if self.private_key_path is None:
+            raise ValueError(
+                "Private key path is required for key-pair authentication"
+            )
         try:
             with open(self.private_key_path, "rb") as key_file:
                 private_key = serialization.load_pem_private_key(

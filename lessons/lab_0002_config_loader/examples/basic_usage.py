@@ -3,6 +3,7 @@
 
 import sys
 from pathlib import Path
+from typing import cast
 
 # Add the project root to the Python path
 project_root = Path(__file__).parent.parent.parent
@@ -97,7 +98,7 @@ def example_validation():
     config = ConfigManager.load_from_file("examples/config.json")
 
     try:
-        validated_config = config.validate(AppConfig)
+        validated_config = cast(AppConfig, config.validate(AppConfig))
         logger.info("Configuration is valid!")
         logger.info(f"Database URL: {validated_config.database.url}")
         logger.info(f"Database Port: {validated_config.database.port}")

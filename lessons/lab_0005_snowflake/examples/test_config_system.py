@@ -81,23 +81,43 @@ def test_environment_config_models():
             name="TEST_DB",
             comment="Test database",
             data_retention_time_in_days=1,
+            if_not_exists=True,
+            owner=None,
         )
         print(f"✅ Database config: {db_config.name}")
 
         # Test schema config
         schema_config = SchemaConfig(
-            name="TEST_SCHEMA", database="TEST_DB", comment="Test schema"
+            schema_name="TEST_SCHEMA",
+            database="TEST_DB",
+            comment="Test schema",
+            if_not_exists=True,
+            managed_access=False,
+            owner=None,
         )
-        print(f"✅ Schema config: {schema_config.name}")
+        print(f"✅ Schema config: {schema_config.schema_name}")
 
         # Test warehouse config
         warehouse_config = WarehouseConfig(
-            name="TEST_WH", size="X-SMALL", comment="Test warehouse"
+            name="TEST_WH",
+            size="X-SMALL",
+            comment="Test warehouse",
+            if_not_exists=True,
+            auto_suspend=60,
+            auto_resume=True,
+            owner=None,
+            min_cluster_count=1,
+            max_cluster_count=1,
         )
         print(f"✅ Warehouse config: {warehouse_config.name}")
 
         # Test role config
-        role_config = RoleConfig(name="TEST_ROLE", comment="Test role")
+        role_config = RoleConfig(
+            name="TEST_ROLE",
+            comment="Test role",
+            if_not_exists=True,
+            owner=None,
+        )
         print(f"✅ Role config: {role_config.name}")
 
         # Test user config
@@ -105,16 +125,28 @@ def test_environment_config_models():
             name="TEST_USER",
             display_name="Test User",
             email="test@example.com",
+            if_not_exists=True,
+            default_role=None,
+            default_warehouse=None,
+            default_namespace=None,
+            rsa_public_key=None,
+            comment=None,
+            must_change_password=False,
         )
         print(f"✅ User config: {user_config.name}")
 
         # Test table config
         table_config = TableConfig(
             name="TEST_TABLE",
+            schema_name="TEST_SCHEMA",
+            database="TEST_DB",
             columns=[
                 {"name": "ID", "type": "INTEGER", "nullable": False},
                 {"name": "NAME", "type": "VARCHAR(100)", "nullable": True},
             ],
+            if_not_exists=True,
+            comment=None,
+            owner=None,
         )
         print(
             f"✅ Table config: {table_config.name} with {len(table_config.columns)} columns"
@@ -162,14 +194,25 @@ def test_database_manager():
         )
 
         # Test database config creation
-        db_config = DatabaseConfig(name="TEST_DB", comment="Test database")
+        db_config = DatabaseConfig(
+            name="TEST_DB",
+            comment="Test database",
+            if_not_exists=True,
+            data_retention_time_in_days=None,
+            owner=None,
+        )
         print(f"✅ Database config created: {db_config.name}")
 
         # Test schema config creation
         schema_config = SchemaConfig(
-            name="TEST_SCHEMA", database="TEST_DB", comment="Test schema"
+            schema_name="TEST_SCHEMA",
+            database="TEST_DB",
+            comment="Test schema",
+            if_not_exists=True,
+            managed_access=False,
+            owner=None,
         )
-        print(f"✅ Schema config created: {schema_config.name}")
+        print(f"✅ Schema config created: {schema_config.schema_name}")
 
         print("✅ DatabaseManager class structure is valid")
 
