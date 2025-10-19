@@ -94,7 +94,7 @@ class DataLoader:
             self._logger.error(
                 f"Failed to load {file_path} to {full_table_name}: {e}"
             )
-            raise SnowparkSQLException(f"Failed to load data: {e}")
+            raise SnowparkSQLException(f"Failed to load data: {e}") from e
 
     def _read_csv_file(
         self, session: Session, file_path: str, **kwargs
@@ -265,7 +265,7 @@ class DataLoader:
             self._logger.error(
                 f"Failed to create table {full_table_name}: {e}"
             )
-            raise SnowparkSQLException(f"Failed to create table: {e}")
+            raise SnowparkSQLException(f"Failed to create table: {e}") from e
 
     def truncate_table(
         self, table_name: str, schema: str | None = None
@@ -292,7 +292,7 @@ class DataLoader:
             self._logger.error(
                 f"Failed to truncate table {full_table_name}: {e}"
             )
-            raise SnowparkSQLException(f"Failed to truncate table: {e}")
+            raise SnowparkSQLException(f"Failed to truncate table: {e}") from e
 
     def drop_table(
         self,
@@ -322,7 +322,7 @@ class DataLoader:
             self._logger.info(f"Successfully dropped table: {full_table_name}")
         except Exception as e:
             self._logger.error(f"Failed to drop table {full_table_name}: {e}")
-            raise SnowparkSQLException(f"Failed to drop table: {e}")
+            raise SnowparkSQLException(f"Failed to drop table: {e}") from e
 
     def copy_data(
         self,
@@ -365,7 +365,7 @@ class DataLoader:
             )
         except Exception as e:
             self._logger.error(f"Failed to copy data: {e}")
-            raise SnowparkSQLException(f"Failed to copy data: {e}")
+            raise SnowparkSQLException(f"Failed to copy data: {e}") from e
 
     def get_table_info(
         self, table_name: str, schema: str | None = None
@@ -408,7 +408,7 @@ class DataLoader:
             self._logger.error(
                 f"Failed to get table info for {full_table_name}: {e}"
             )
-            raise SnowparkSQLException(f"Failed to get table info: {e}")
+            raise SnowparkSQLException(f"Failed to get table info: {e}") from e
 
     def __repr__(self) -> str:
         """String representation of the data loader."""

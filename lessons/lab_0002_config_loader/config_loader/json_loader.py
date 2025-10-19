@@ -31,9 +31,13 @@ class JsonLoader(BaseLoader):
             return data
 
         except json.JSONDecodeError as e:
-            raise ValueError(f"Invalid JSON format in {self.file_path}: {e}")
+            raise ValueError(
+                f"Invalid JSON format in {self.file_path}: {e}"
+            ) from e
         except OSError as e:
-            raise OSError(f"Error reading JSON file {self.file_path}: {e}")
+            raise OSError(
+                f"Error reading JSON file {self.file_path}: {e}"
+            ) from e
 
     def get_supported_extensions(self) -> list[str]:
         """Get list of supported file extensions.

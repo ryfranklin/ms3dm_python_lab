@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# ruff: noqa: E402
 """
 Configuration-Driven Snowflake Example
 
@@ -13,9 +14,10 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from core import get_logger, setup_logging
+# Import after path manipulation
+from core import get_logger, setup_logging  # noqa: E402
 from lessons.lab_0005_snowflake.snowflake_lab import (
-    DataLoader,
+    DataLoader,  # noqa: E402
     QueryBuilder,
     SnowflakeConfigSetup,
     SnowflakeConnection,

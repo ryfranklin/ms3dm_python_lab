@@ -35,7 +35,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def setup_environment(config_file: str | None = None) -> bool:
+def setup_environment(config_file: str | None = None) -> bool:  # noqa: C901
     """
     Set up the Snowflake environment based on configuration.
 

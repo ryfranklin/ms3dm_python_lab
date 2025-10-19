@@ -31,9 +31,13 @@ class TomlLoader(BaseLoader):
             return data
 
         except tomllib.TOMLDecodeError as e:
-            raise ValueError(f"Invalid TOML format in {self.file_path}: {e}")
+            raise ValueError(
+                f"Invalid TOML format in {self.file_path}: {e}"
+            ) from e
         except OSError as e:
-            raise OSError(f"Error reading TOML file {self.file_path}: {e}")
+            raise OSError(
+                f"Error reading TOML file {self.file_path}: {e}"
+            ) from e
 
     def get_supported_extensions(self) -> list[str]:
         """Get list of supported file extensions.

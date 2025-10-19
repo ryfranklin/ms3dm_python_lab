@@ -73,7 +73,7 @@ class SnowparkOperations:
             return df
         except Exception as e:
             self._logger.error(f"Failed to read table {full_table_name}: {e}")
-            raise SnowparkSQLException(f"Failed to read table: {e}")
+            raise SnowparkSQLException(f"Failed to read table: {e}") from e
 
     def read_sql(self, sql: str) -> DataFrame:
         """Read data using a SQL query.
@@ -92,7 +92,7 @@ class SnowparkOperations:
             return df
         except Exception as e:
             self._logger.error(f"Failed to execute SQL query: {e}")
-            raise SnowparkSQLException(f"SQL query failed: {e}")
+            raise SnowparkSQLException(f"SQL query failed: {e}") from e
 
     def filter_data(
         self, df: DataFrame, conditions: dict[str, Any]
@@ -365,7 +365,7 @@ class SnowparkOperations:
             return [row.asDict() for row in result]
         except Exception as e:
             self._logger.error(f"Failed to collect data: {e}")
-            raise SnowparkSQLException(f"Failed to collect data: {e}")
+            raise SnowparkSQLException(f"Failed to collect data: {e}") from e
 
     def show_data(self, df: DataFrame, n: int = 10) -> None:
         """Display DataFrame data.
@@ -432,7 +432,7 @@ class SnowparkOperations:
             self._logger.error(
                 f"Failed to write to table {full_table_name}: {e}"
             )
-            raise SnowparkSQLException(f"Failed to write to table: {e}")
+            raise SnowparkSQLException(f"Failed to write to table: {e}") from e
 
     def __repr__(self) -> str:
         """String representation of the operations handler."""

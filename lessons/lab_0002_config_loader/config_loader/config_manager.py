@@ -182,7 +182,9 @@ class ConfigManager:
             self._validated_config = validated
             return validated
         except ValidationError as e:
-            raise ValidationError(f"Configuration validation failed: {e}")
+            raise ValidationError(
+                f"Configuration validation failed: {e}"
+            ) from e
 
     def get_validated(self) -> BaseModel | None:
         """Get the validated configuration model.

@@ -288,7 +288,7 @@ def main():
     finally:
         try:
             connection.close_all_sessions()
-        except:
+        except Exception:
             pass
 
 

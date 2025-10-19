@@ -43,7 +43,9 @@ class EnvLoader(BaseLoader):
             return env_vars
 
         except Exception as e:
-            raise ValueError(f"Error loading .env file {self.file_path}: {e}")
+            raise ValueError(
+                f"Error loading .env file {self.file_path}: {e}"
+            ) from e
 
     def get_supported_extensions(self) -> list[str]:
         """Get list of supported file extensions.
@@ -76,4 +78,4 @@ class EnvLoader(BaseLoader):
         except Exception as e:
             raise ValueError(
                 f"Error loading specific variables from .env file {self.file_path}: {e}"
-            )
+            ) from e

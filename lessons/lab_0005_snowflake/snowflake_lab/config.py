@@ -154,7 +154,7 @@ class SnowflakeConfig(BaseModel):
         except Exception as e:
             raise ValueError(
                 f"Failed to load private key from {self.private_key_path}: {e}"
-            )
+            ) from e
 
     @classmethod
     def from_config_file(cls, config_path: str | Path) -> "SnowflakeConfig":

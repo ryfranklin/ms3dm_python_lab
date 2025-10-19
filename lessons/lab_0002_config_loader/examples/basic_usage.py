@@ -1,3 +1,4 @@
+# ruff: noqa: E402
 """Basic usage examples for the config loader."""
 
 import sys
@@ -7,9 +8,10 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from config_loader import ConfigManager
+# Import after path manipulation
+from config_loader import ConfigManager  # noqa: E402
 
-from core import get_logger, setup_logging
+from core import get_logger, setup_logging  # noqa: E402
 
 # Set up logging
 setup_logging(level="INFO")

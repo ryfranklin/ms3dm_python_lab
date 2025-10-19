@@ -306,7 +306,7 @@ class QueryBuilder:
             return df
         except Exception as e:
             self._logger.error(f"Query execution failed: {e}")
-            raise SnowparkSQLException(f"Query execution failed: {e}")
+            raise SnowparkSQLException(f"Query execution failed: {e}") from e
 
     def collect(self) -> list[dict[str, Any]]:
         """Execute the query and collect results.
@@ -472,7 +472,7 @@ class AnalyticsQueryBuilder(QueryBuilder):
         """
         # Add aggregations for each funnel step
         for i, step_col in enumerate(step_columns):
-            self.aggregate(step_col, "count", f"step_{i+1}_count")
-            self.aggregate(user_column, "count", f"step_{i+1}_users")
+            self.aggregate(step_col, "count", f"step_{i + 1}_count")
+            self.aggregate(user_column, "count", f"step_{i + 1}_users")
 
         return self
