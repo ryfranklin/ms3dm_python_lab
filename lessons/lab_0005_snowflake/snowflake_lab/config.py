@@ -5,7 +5,7 @@ from pathlib import Path
 from cryptography.hazmat.primitives import serialization
 from pydantic import BaseModel, Field, field_validator
 
-from ...lab_0002_config_loader.config_loader import ConfigManager
+from lessons.lab_0002_config_loader.config_loader import ConfigManager
 
 
 class SnowflakeConfig(BaseModel):
@@ -51,7 +51,9 @@ class SnowflakeConfig(BaseModel):
     @classmethod
     def validate_private_key_path(cls, v):
         """Validate that private key file exists if provided."""
-        if v is not None:
+        if (
+            v is not None and v.strip()
+        ):  # Check for None and empty/whitespace strings
             key_path = Path(v)
             if not key_path.exists():
                 raise ValueError(f"Private key file not found: {v}")

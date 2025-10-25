@@ -321,6 +321,8 @@ SNOWFLAKE_ROLE=test_role
 SNOWFLAKE_PASSWORD=test_password
 SNOWFLAKE_CONNECTION_TIMEOUT=120
 SNOWFLAKE_LOG_LEVEL=DEBUG
+SNOWFLAKE_PRIVATE_KEY_PATH=
+SNOWFLAKE_PRIVATE_KEY_PASSPHRASE=
 """
 
         with tempfile.NamedTemporaryFile(
@@ -343,6 +345,8 @@ SNOWFLAKE_LOG_LEVEL=DEBUG
                 "SNOWFLAKE_PASSWORD",
                 "SNOWFLAKE_CONNECTION_TIMEOUT",
                 "SNOWFLAKE_LOG_LEVEL",
+                "SNOWFLAKE_PRIVATE_KEY_PATH",
+                "SNOWFLAKE_PRIVATE_KEY_PASSPHRASE",
             ]
 
             for var in env_vars_to_clear:

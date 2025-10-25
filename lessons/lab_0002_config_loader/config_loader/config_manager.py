@@ -183,9 +183,8 @@ class ConfigManager:
             return validated
         except ValidationError as e:
             # Re-raise the original ValidationError with additional context
-            raise ValidationError.from_exception_data(
-                "Configuration validation failed", e.errors()
-            ) from e
+            # In Pydantic V2, we can just re-raise the original error
+            raise e
 
     def get_validated(self) -> BaseModel | None:
         """Get the validated configuration model.

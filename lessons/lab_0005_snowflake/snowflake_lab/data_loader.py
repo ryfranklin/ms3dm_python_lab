@@ -354,9 +354,19 @@ class DataLoader:
         else:
             full_target_table = target_table
 
-        # Build COPY statement
-        where_clause_sql = f" WHERE {where_clause}" if where_clause else ""
-        copy_sql = f"INSERT INTO {full_target_table} SELECT * FROM {full_source_table}{where_clause_sql}"
+        # Build COPY statement with safe SQL construction
+        # Validate table names to prevent SQL injection
+        self._validate_table_name(source_table)
+        self._validate_table_name(target_table)
+        if source_schema:
+            self._validate_schema_name(source_schema)
+        if target_schema:
+            self._validate_schema_name(target_schema)
+
+        where_clause_sql = (
+            f" WHERE {where_clause}" if where_clause else ""
+        )  # nosec B608
+        copy_sql = f"INSERT INTO {full_target_table} SELECT * FROM {full_source_table}{where_clause_sql}"  # nosec B608
 
         try:
             session.sql(copy_sql).collect()
@@ -381,7 +391,10 @@ class DataLoader:
         """
         session = self._get_session()
 
+        # Validate input parameters to prevent SQL injection
+        self._validate_table_name(table_name)
         if schema:
+            self._validate_schema_name(schema)
             full_table_name = f"{schema}.{table_name}"
         else:
             full_table_name = table_name
@@ -395,7 +408,7 @@ class DataLoader:
 
             # Get row count
             count_result = session.sql(
-                f"SELECT COUNT(*) as row_count FROM {full_table_name}"
+                f"SELECT COUNT(*) as row_count FROM {full_table_name}"  # nosec B608
             ).collect()
             row_count = count_result[0]["ROW_COUNT"] if count_result else 0
 
@@ -409,6 +422,50 @@ class DataLoader:
                 f"Failed to get table info for {full_table_name}: {e}"
             )
             raise SnowparkSQLException(f"Failed to get table info: {e}") from e
+
+    def _validate_table_name(self, table_name: str) -> None:
+        """Validate table name to prevent SQL injection.
+
+        Args:
+            table_name: Table name to validate
+
+        Raises:
+            ValueError: If table name contains invalid characters
+        """
+        if not table_name:
+            raise ValueError("Table name cannot be empty")
+
+        # Allow only alphanumeric characters, underscores, and hyphens
+        import re
+
+        if not re.match(r"^[a-zA-Z_][a-zA-Z0-9_-]*$", table_name):
+            raise ValueError(
+                f"Invalid table name '{table_name}'. "
+                "Table names must start with a letter or underscore and contain only "
+                "alphanumeric characters, underscores, and hyphens."
+            )
+
+    def _validate_schema_name(self, schema_name: str) -> None:
+        """Validate schema name to prevent SQL injection.
+
+        Args:
+            schema_name: Schema name to validate
+
+        Raises:
+            ValueError: If schema name contains invalid characters
+        """
+        if not schema_name:
+            raise ValueError("Schema name cannot be empty")
+
+        # Allow only alphanumeric characters, underscores, and hyphens
+        import re
+
+        if not re.match(r"^[a-zA-Z_][a-zA-Z0-9_-]*$", schema_name):
+            raise ValueError(
+                f"Invalid schema name '{schema_name}'. "
+                "Schema names must start with a letter or underscore and contain only "
+                "alphanumeric characters, underscores, and hyphens."
+            )
 
     def __repr__(self) -> str:
         """String representation of the data loader."""

@@ -55,11 +55,12 @@ def test_config_loading():
         project_version = config.get("project.version")
         print(f"🚀 Project: {project_name} v{project_version}")
 
-        return True
+        # All assertions passed implicitly through the test
+        assert True  # Test completed successfully
 
     except Exception as e:
         print(f"❌ Configuration loading failed: {e}")
-        return False
+        raise AssertionError(f"Configuration loading failed: {e}") from e
 
 
 def test_environment_config_models():
@@ -152,11 +153,14 @@ def test_environment_config_models():
             f"✅ Table config: {table_config.name} with {len(table_config.columns)} columns"
         )
 
-        return True
+        # All assertions passed implicitly through the test
+        assert True  # Test completed successfully
 
     except Exception as e:
         print(f"❌ Environment config models test failed: {e}")
-        return False
+        raise AssertionError(
+            f"Environment config models test failed: {e}"
+        ) from e
 
 
 def test_config_setup_class():
@@ -176,11 +180,12 @@ def test_config_setup_class():
         db_name = setup.config_manager.get("environment.database.name")
         print(f"📊 Database from setup: {db_name}")
 
-        return True
+        # All assertions passed implicitly through the test
+        assert True  # Test completed successfully
 
     except Exception as e:
         print(f"❌ SnowflakeConfigSetup test failed: {e}")
-        return False
+        raise AssertionError(f"SnowflakeConfigSetup test failed: {e}") from e
 
 
 def test_database_manager():
@@ -216,11 +221,12 @@ def test_database_manager():
 
         print("✅ DatabaseManager class structure is valid")
 
-        return True
+        # All assertions passed implicitly through the test
+        assert True  # Test completed successfully
 
     except Exception as e:
         print(f"❌ DatabaseManager test failed: {e}")
-        return False
+        raise AssertionError(f"DatabaseManager test failed: {e}") from e
 
 
 def main():
