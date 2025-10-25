@@ -1,0 +1,215 @@
+# Snowflake Environment Configuration
+# This file defines the complete Snowflake environment setup for the Python Learning Lab
+
+# Connection settings (can also be loaded from .env file)
+connection:
+  account: "${SNOWFLAKE_ACCOUNT}"
+  user: "${SNOWFLAKE_USER}"
+  private_key_path: "${SNOWFLAKE_PRIVATE_KEY_PATH}"
+  private_key_passphrase: "${SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}"
+  warehouse: "${SNOWFLAKE_WAREHOUSE}"
+  database: "${SNOWFLAKE_DATABASE}"
+  schema_name: "${SNOWFLAKE_SCHEMA}"
+  role: "${SNOWFLAKE_ROLE}"
+
+# Environment setup configuration
+environment:
+  # Database configuration
+  database:
+    name: "PYTHON_LEARNING_LAB"
+    if_not_exists: true
+    comment: "Database for Python Learning Lab - Snowflake integration examples"
+    data_retention_time_in_days: 1
+    owner: "MS3DM_LOCAL_ADMIN"
+
+  # Schema configuration
+  schema:
+    schema_name: "EXAMPLES"
+    database: "PYTHON_LEARNING_LAB"
+    if_not_exists: true
+    comment: "Schema for Snowflake lab examples and demonstrations"
+    managed_access: false
+    owner: "MS3DM_LOCAL_ADMIN"
+
+  # Warehouse configuration (optional - uses existing COMPUTE_WH if not specified)
+  warehouse:
+    name: "PYTHON_LAB_WH"
+    if_not_exists: true
+    size: "X-SMALL"
+    auto_suspend: 60
+    auto_resume: true
+    comment: "Warehouse for Python Learning Lab Snowflake operations"
+    owner: "MS3DM_LOCAL_ADMIN"
+    min_cluster_count: 1
+    max_cluster_count: 1
+
+  # Roles to create
+  roles:
+    - name: "PYTHON_LAB_READER"
+      if_not_exists: true
+      comment: "Read-only role for Python lab examples"
+      owner: "MS3DM_LOCAL_ADMIN"
+
+    - name: "PYTHON_LAB_WRITER"
+      if_not_exists: true
+      comment: "Read-write role for Python lab examples"
+      owner: "MS3DM_LOCAL_ADMIN"
+
+  # Users to create (optional - you already have MS3DM_LOCAL_DEV)
+  users:
+    - name: "PYTHON_LAB_DEMO"
+      if_not_exists: true
+      display_name: "Python Lab Demo User"
+      email: "demo@pythonlearninglab.com"
+      default_role: "PYTHON_LAB_READER"
+      default_warehouse: "PYTHON_LAB_WH"
+      default_namespace: "PYTHON_LEARNING_LAB.EXAMPLES"
+      comment: "Demo user for Python Learning Lab"
+      must_change_password: false
+
+  # Tables to create for examples
+  tables:
+    - name: "EMPLOYEES"
+      schema_name: "EXAMPLES"
+      database: "PYTHON_LEARNING_LAB"
+      if_not_exists: true
+      comment: "Sample employee data for demonstrations"
+      columns:
+        - name: "ID"
+          type: "INTEGER"
+          nullable: false
+          comment: "Employee ID"
+        - name: "NAME"
+          type: "VARCHAR(100)"
+          nullable: false
+          comment: "Employee name"
+        - name: "AGE"
+          type: "INTEGER"
+          nullable: true
+          comment: "Employee age"
+        - name: "DEPARTMENT"
+          type: "VARCHAR(50)"
+          nullable: true
+          comment: "Department name"
+        - name: "SALARY"
+          type: "DECIMAL(10,2)"
+          nullable: true
+          comment: "Annual salary"
+        - name: "HIRE_DATE"
+          type: "DATE"
+          nullable: true
+          comment: "Date hired"
+        - name: "IS_ACTIVE"
+          type: "BOOLEAN"
+          nullable: false
+          comment: "Whether employee is active"
+          default: "TRUE"
+
+    - name: "SALES_DATA"
+      schema_name: "EXAMPLES"
+      database: "PYTHON_LEARNING_LAB"
+      if_not_exists: true
+      comment: "Sample sales data for analytics examples"
+      columns:
+        - name: "SALE_ID"
+          type: "INTEGER"
+          nullable: false
+          comment: "Unique sale identifier"
+        - name: "PRODUCT_NAME"
+          type: "VARCHAR(100)"
+          nullable: false
+          comment: "Product name"
+        - name: "QUANTITY"
+          type: "INTEGER"
+          nullable: false
+          comment: "Quantity sold"
+        - name: "UNIT_PRICE"
+          type: "DECIMAL(10,2)"
+          nullable: false
+          comment: "Price per unit"
+        - name: "TOTAL_AMOUNT"
+          type: "DECIMAL(12,2)"
+          nullable: false
+          comment: "Total sale amount"
+        - name: "SALE_DATE"
+          type: "DATE"
+          nullable: false
+          comment: "Date of sale"
+        - name: "SALES_REP_ID"
+          type: "INTEGER"
+          nullable: true
+          comment: "Sales representative ID"
+
+    - name: "PRODUCTS"
+      schema_name: "EXAMPLES"
+      database: "PYTHON_LEARNING_LAB"
+      if_not_exists: true
+      comment: "Product catalog for examples"
+      columns:
+        - name: "PRODUCT_ID"
+          type: "INTEGER"
+          nullable: false
+          comment: "Unique product identifier"
+        - name: "PRODUCT_NAME"
+          type: "VARCHAR(100)"
+          nullable: false
+          comment: "Product name"
+        - name: "CATEGORY"
+          type: "VARCHAR(50)"
+          nullable: true
+          comment: "Product category"
+        - name: "SUPPLIER"
+          type: "VARCHAR(100)"
+          nullable: true
+          comment: "Supplier name"
+        - name: "UNIT_COST"
+          type: "DECIMAL(10,2)"
+          nullable: true
+          comment: "Cost per unit"
+        - name: "STOCK_QUANTITY"
+          type: "INTEGER"
+          nullable: true
+          comment: "Current stock quantity"
+
+  # Grants to execute
+  grants:
+    - sql: "GRANT USAGE ON DATABASE PYTHON_LEARNING_LAB TO ROLE PYTHON_LAB_READER;"
+    - sql: "GRANT USAGE ON SCHEMA PYTHON_LEARNING_LAB.EXAMPLES TO ROLE PYTHON_LAB_READER;"
+    - sql: "GRANT SELECT ON ALL TABLES IN SCHEMA PYTHON_LEARNING_LAB.EXAMPLES TO ROLE PYTHON_LAB_READER;"
+    - sql: "GRANT USAGE ON WAREHOUSE PYTHON_LAB_WH TO ROLE PYTHON_LAB_READER;"
+
+    - sql: "GRANT USAGE ON DATABASE PYTHON_LEARNING_LAB TO ROLE PYTHON_LAB_WRITER;"
+    - sql: "GRANT USAGE ON SCHEMA PYTHON_LEARNING_LAB.EXAMPLES TO ROLE PYTHON_LAB_WRITER;"
+    - sql: "GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA PYTHON_LEARNING_LAB.EXAMPLES TO ROLE PYTHON_LAB_WRITER;"
+    - sql: "GRANT USAGE ON WAREHOUSE PYTHON_LAB_WH TO ROLE PYTHON_LAB_WRITER;"
+    - sql: "GRANT CREATE TABLE ON SCHEMA PYTHON_LEARNING_LAB.EXAMPLES TO ROLE PYTHON_LAB_WRITER;"
+
+    - sql: "GRANT ROLE PYTHON_LAB_READER TO USER PYTHON_LAB_DEMO;"
+    - sql: "GRANT ROLE PYTHON_LAB_WRITER TO USER MS3DM_LOCAL_DEV;"
+
+# Project-specific settings
+project:
+  name: "Python Learning Lab - Snowflake Integration"
+  version: "1.0.0"
+  description: "Comprehensive Snowflake integration examples and utilities"
+  author: "Ryan Franklin"
+  environment: "development"
+
+  # Data loading settings
+  data_loading:
+    default_file_format: "CSV"
+    default_stage: "@PYTHON_LAB_STAGE"
+    auto_compress: true
+    overwrite_files: true
+
+  # Query settings
+  query_settings:
+    default_timeout: 300
+    max_rows: 10000
+    enable_query_history: true
+
+  # Logging settings
+  logging:
+    level: "INFO"
+    enable_sql_logging: true
+    log_file: "snowflake_lab.log"

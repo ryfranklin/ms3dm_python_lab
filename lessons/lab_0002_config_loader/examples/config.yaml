@@ -1,0 +1,28 @@
+database:
+  url: postgresql://localhost:5432/myapp
+  port: 5432
+  ssl: true
+  pool_size: 10
+
+api:
+  timeout: 30
+  retries: 3
+  rate_limit: 100
+
+cache:
+  redis:
+    host: localhost
+    port: 6379
+    db: 0
+
+security:
+  allowed_hosts:
+    - localhost
+    - 127.0.0.1
+  cors_origins:
+    - http://localhost:3000
+    - https://myapp.com
+
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

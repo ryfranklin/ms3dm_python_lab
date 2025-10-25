@@ -5,9 +5,12 @@ A publish/subscribe system that allows components to communicate without tight c
 Handlers are called synchronously in the order they were registered.
 """
 
+import logging
 from collections.abc import Callable
 from typing import Any
 from uuid import uuid4
+
+logger = logging.getLogger(__name__)
 
 
 class EventBus:
@@ -20,10 +23,9 @@ class EventBus:
     Examples:
         >>> bus = EventBus()
         >>> def handler(event: str, payload: dict):
-        ...     print(f"Received {event}: {payload}")
+        ...     logger.info(f"Received {event}: {payload}")
         >>> sub_id = bus.subscribe("user.login", handler)
         >>> bus.publish("user.login", {"user_id": 123})
-        Received user.login: {'user_id': 123}
         >>> bus.unsubscribe(sub_id)
         >>> bus.publish("user.login", {"user_id": 456})  # No output
     """

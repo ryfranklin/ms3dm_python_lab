@@ -30,7 +30,6 @@
   // Ruff extension settings (modern native extension)
   "ruff.enable": true,
   "ruff.organizeImports": true,
-  "ruff.showNotifications": "onWarning",
   "ruff.importStrategy": "fromEnvironment",
 
   // Testing

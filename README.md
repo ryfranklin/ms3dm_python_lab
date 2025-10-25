@@ -43,6 +43,27 @@ A lightweight publish/subscribe system with both synchronous and asynchronous im
 
 A comprehensive framework for building AI-powered conversational agents. Learn to integrate Large Language Models, manage configurations, and create interactive AI applications with memory and context management.
 
+## 🚀 Recent Updates
+
+### Pydantic V2 Migration (Lab 0005)
+
+**Lab 0005: Snowflake Integration** has been fully migrated to **Pydantic V2** for enhanced performance and validation:
+
+- ✅ **Better Performance**: Pydantic V2 is significantly faster
+- ✅ **Enhanced Validation**: More robust type checking and error messages
+- ✅ **Future-Proof**: Uses the latest Pydantic features and patterns
+- ✅ **No Warnings**: Clean execution without deprecation warnings
+- ✅ **Improved Configuration**: Enhanced environment variable resolution
+
+**Key Changes:**
+
+- Updated field validators to use `@field_validator` decorators
+- Renamed `schema` field to `schema_name` to avoid shadowing
+- Enhanced environment variable substitution in YAML configurations
+- Updated all configuration models and tests
+
+[View Migration Details →](lessons/lab_0005_snowflake/README.md#-pydantic-v2-migration)
+
 ## 🚀 Getting Started
 
 ### Prerequisites
