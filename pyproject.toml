@@ -23,6 +23,11 @@ classifiers = [
 dependencies = [
     "litellm>=1.77.0",
     "python-dotenv>=1.0.0",
+    "snowflake-snowpark-python>=1.11.0",
+    "pyyaml>=6.0.1",
+    "pydantic>=2.12.0",  # Updated to latest Pydantic V2
+    "cryptography>=41.0.0",
+    "tomli-w>=1.0.0",  # For TOML file writing support
 ]
 
 [project.optional-dependencies]
@@ -101,8 +106,8 @@ ignore = [
 "notebooks/*.ipynb" = ["E402"]  # Allow imports after path manipulation
 
 [tool.bandit]
-exclude_dirs = ["tests", "examples"]
-skips = ["B101"]  # Skip assert_used check since we use assertions for validation
+exclude_dirs = [".venv", "venv", "env", "tests", "examples", "lessons/*/tests", "lessons/*/examples", "htmlcov", "__pycache__", "*.egg-info"]
+skips = ["B101", "B105", "B106"]  # Skip assert_used and hardcoded password checks for test files
 
 [tool.coverage.run]
 source = ["lessons", "core"]

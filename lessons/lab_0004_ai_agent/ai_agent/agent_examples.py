@@ -1,9 +1,11 @@
 """Example agent interactions and conversation patterns."""
 
 import json
+import logging
 
 from .llm_client import llm_client
 
+logger = logging.getLogger(__name__)
 # Example conversation patterns for different use cases
 messages = [
     {
@@ -87,25 +89,25 @@ def demonstrate_conversation_memory():
 
 def run_examples():
     """Run all example conversations."""
-    print("=== Software Engineer Example ===")
+    logger.info("=== Software Engineer Example ===")
     response = llm_client.generate_response(messages)
-    print(response)
+    logger.info(response)
 
-    print("\n=== Customer Service Example ===")
+    logger.info("\n=== Customer Service Example ===")
     response = llm_client.generate_response(csr_message)
-    print(response)
+    logger.info(response)
 
-    print("\n=== Base64 Exercise ===")
+    logger.info("\n=== Base64 Exercise ===")
     response = llm_client.generate_response(exercise_1)
-    print(response)
+    logger.info(response)
 
-    print("\n=== Code Specification Example ===")
+    logger.info("\n=== Code Specification Example ===")
     response = llm_client.generate_response(code_spec_messages)
-    print(response)
+    logger.info(response)
 
-    print("\n=== Conversation Memory Example ===")
+    logger.info("\n=== Conversation Memory Example ===")
     response = demonstrate_conversation_memory()
-    print(response)
+    logger.info(response)
 
 
 if __name__ == "__main__":

@@ -276,7 +276,7 @@ class TestLLMClientIntegration:
 
         with pytest.raises(Exception) as exc_info:
             client.generate_response(messages)
-        assert "Failed to generate response: " "Network error" in str(
+        assert "Failed to generate response: Network error" in str(
             exc_info.value
         )
 
