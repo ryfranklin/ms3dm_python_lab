@@ -193,7 +193,72 @@ This exercise demonstrates:
 - **Test case** generation
 - **File output** management
 
-### Exercise 2: Custom Agent Personality
+### Exercise 2: Function Calling Agent
+
+Run the function calling agent exercise:
+
+```bash
+python exercises/function_calling_agent.py
+```
+
+This exercise demonstrates:
+
+- **Tool integration** with LLM agents
+- **Function calling** patterns using LiteLLM
+- **File system interaction** through AI agents
+- **Agent loop** management and iteration control
+- **Tool registry** and parameter validation
+
+#### Function Calling Agent Details
+
+The function calling agent demonstrates how to create an AI agent that can use tools to interact with the environment. Key concepts include:
+
+**Tool Definition**: Each tool is defined with a JSON schema that describes its parameters and requirements:
+
+```python
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "read_file",
+            "description": "Reads the content of a specified file in the directory.",
+            "parameters": {
+                "type": "object",
+                "properties": {"file_name": {"type": "string"}},
+                "required": ["file_name"]
+            }
+        }
+    }
+]
+```
+
+**Agent Loop**: The agent processes user requests by calling the LLM with available tools:
+
+```python
+response = completion(
+    model="openai/gpt-4o",
+    messages=messages,
+    tools=tools,
+    max_tokens=1024
+)
+```
+
+**Tool Execution**: When the LLM decides to use a tool, the agent executes it and adds the result to the conversation memory:
+
+```python
+if response.choices[0].message.tool_calls:
+    tool = response.choices[0].message.tool_calls[0]
+    tool_name = tool.function.name
+    tool_args = json.loads(tool.function.arguments)
+
+    result = tool_functions[tool_name](**tool_args)
+    memory.extend([
+        {"role": "assistant", "content": json.dumps(action)},
+        {"role": "user", "content": json.dumps(result)}
+    ])
+```
+
+### Exercise 3: Custom Agent Personality
 
 Create your own agent personality:
 
@@ -212,7 +277,7 @@ response = llm_client.chat(
 )
 ```
 
-### Exercise 3: Code Review Agent
+### Exercise 4: Code Review Agent
 
 ```python
 # Code review agent
@@ -244,6 +309,7 @@ pytest
 pytest tests/test_config.py
 pytest tests/test_llm_client.py
 pytest tests/test_agent_examples.py
+pytest tests/test_function_calling_agent.py
 
 # Run with coverage
 pytest --cov=ai_agent --cov-report=term-missing
@@ -260,6 +326,8 @@ Test coverage includes:
 - ✅ Conversation memory and context management
 - ✅ Message structure validation
 - ✅ Integration scenarios
+- ✅ Function calling and tool integration
+- ✅ Agent loop management and iteration control
 
 ## 💡 Advanced Patterns
 
