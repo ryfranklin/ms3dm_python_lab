@@ -1,0 +1,175 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+
+
+
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": true,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Lab 0001: Event Bus Tests",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/lessons/lab_0001_event_bus/tests",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Lab 0002: Config Loader Tests",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/lessons/lab_0002_config_loader/tests",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Lab 0004: Function Calling Agent",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/lessons/lab_0004_ai_agent/exercises/function_calling_agent.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Lab 0004: Function Developer",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/lessons/lab_0004_ai_agent/exercises/function_developer.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Lab 0004: Function Calling Demo",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/lessons/lab_0004_ai_agent/examples/function_calling_demo.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Lab 0004: Run Function Calling Agent",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/lessons/lab_0004_ai_agent/examples/run_function_calling_agent.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Lab 0005: Snowflake Basic Operations",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/lessons/lab_0005_snowflake/examples/basic_operations.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Lab 0005: Snowflake Config Driven Example",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/lessons/lab_0005_snowflake/examples/config_driven_example.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Lab 0005: Snowflake Test Connection",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/lessons/lab_0005_snowflake/examples/test_connection.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Run All Tests",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "tests/",
+                "-v"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Run Specific Test File",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "${file}",
+                "-v"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Debug with pdb",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "args": [],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "stopOnEntry": false,
+            "python": "${command:python.interpreterPath}"
+        }
+    ]
+}

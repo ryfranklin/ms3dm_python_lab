@@ -57,11 +57,36 @@ This lab provides a modular AI agent framework:
 - Code generation workflows
 - Memory management demonstrations
 
-### 4. **Interactive Exercises** (`exercises/`)
+### 4. **GAME Framework** (`game_framework.py`)
+
+- Goal-driven agent architecture
+- Action registry and tool management
+- Memory and conversation tracking
+- Environment configuration
+- Modular, extensible agent design
+
+### 5. **Agent Language** (`game_framework.py`)
+
+- **Agent Language Protocol**: Defines how agents communicate with LLMs
+- **Standardized Communication**: Consistent message formatting and response parsing
+- **Multiple Implementations**: Function calling, text-only, and extensible formats
+- **Separation of Concerns**: Agent logic separate from LLM interface
+- **Flexibility**: Easy to swap communication protocols
+
+The Agent Language is a crucial concept that standardizes the communication protocol between agents and Large Language Models. It defines:
+
+- **Message Formatting**: How actions are encoded for the LLM
+- **Response Parsing**: How LLM responses are interpreted
+- **Protocol Extensibility**: Easy to create custom communication styles
+
+See [Agent Language Examples](#agent-language-communication-protocols) for detailed usage.
+
+### 6. **Interactive Exercises** (`exercises/`)
 
 - Hands-on function development
 - Step-by-step agent interaction
 - Real-world coding scenarios
+- GAME framework implementation
 
 ## 🚀 Quick Start
 
@@ -193,7 +218,260 @@ This exercise demonstrates:
 - **Test case** generation
 - **File output** management
 
-### Exercise 2: Custom Agent Personality
+### Exercise 2: Function Calling Agent
+
+Run the function calling agent exercise:
+
+```bash
+python exercises/function_calling_agent.py
+```
+
+This exercise demonstrates:
+
+- **Tool integration** with LLM agents
+- **Function calling** patterns using LiteLLM
+- **File system interaction** through AI agents
+- **Agent loop** management and iteration control
+- **Tool registry** and parameter validation
+
+#### Function Calling Agent Details
+
+The function calling agent demonstrates how to create an AI agent that can use tools to interact with the environment. Key concepts include:
+
+**Tool Definition**: Each tool is defined with a JSON schema that describes its parameters and requirements:
+
+```python
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "read_file",
+            "description": "Reads the content of a specified file in the directory.",
+            "parameters": {
+                "type": "object",
+                "properties": {"file_name": {"type": "string"}},
+                "required": ["file_name"]
+            }
+        }
+    }
+]
+```
+
+**Agent Loop**: The agent processes user requests by calling the LLM with available tools:
+
+```python
+response = completion(
+    model="openai/gpt-4o",
+    messages=messages,
+    tools=tools,
+    max_tokens=1024
+)
+```
+
+**Tool Execution**: When the LLM decides to use a tool, the agent executes it and adds the result to the conversation memory:
+
+```python
+if response.choices[0].message.tool_calls:
+    tool = response.choices[0].message.tool_calls[0]
+    tool_name = tool.function.name
+    tool_args = json.loads(tool.function.arguments)
+
+    result = tool_functions[tool_name](**tool_args)
+    memory.extend([
+        {"role": "assistant", "content": json.dumps(action)},
+        {"role": "user", "content": json.dumps(result)}
+    ])
+```
+
+### Exercise 3: GAME Framework Agent
+
+Run the GAME framework exercise to see how to build a modular agent architecture:
+
+```bash
+python exercises/game_framework_exercise.py
+```
+
+This exercise demonstrates the **GAME framework** (Goals, Actions, Memory, Environment) for building AI agents:
+
+#### Framework Components
+
+**1. Goals** - Define what the agent should accomplish with priorities:
+
+```python
+goals = [
+    Goal(
+        priority=1,
+        name="Explore Files",
+        description="Explore files in the current directory by listing and reading them"
+    ),
+    Goal(
+        priority=2,
+        name="Terminate",
+        description="Terminate the session when tasks are complete"
+    )
+]
+```
+
+**2. Actions** - Define tools/functions available to the agent:
+
+```python
+action_registry = ActionRegistry()
+action_registry.register(Action(
+    name="list_files",
+    function=list_files,
+    description="Returns a list of files in the directory.",
+    parameters={},
+    terminal=False
+))
+```
+
+**3. Agent** - Orchestrates goals, actions, and memory:
+
+```python
+file_explorer_agent = Agent(
+    goals=goals,
+    agent_language=agent_language,
+    action_registry=action_registry,
+    generate_response=generate_response,
+    environment=environment
+)
+```
+
+**4. Running the Agent**:
+
+```python
+final_memory = file_explorer_agent.run(user_input, max_iterations=10)
+```
+
+#### Benefits of the GAME Framework
+
+- **Better Organization**: Each component has a clear purpose
+- **Reusability**: Swap components without changing core logic
+- **Extensibility**: Add new goals and actions easily
+- **Standard Interface**: Consistent way to interact with agents
+- **Memory Management**: Automatic conversation tracking
+
+This structured approach makes it easier to develop, maintain, and extend AI agents as complexity grows.
+
+## 🗣️ Agent Language: Communication Protocols
+
+The **Agent Language** defines the protocol for how agents communicate with Large Language Models. This abstraction enables standardized, extensible communication patterns.
+
+### Understanding Agent Language
+
+Agent Language is the interface between your agent's logic and the LLM's communication protocol. It handles:
+
+1. **Action Formatting**: Encoding agent actions for the LLM
+2. **Response Parsing**: Extracting information from LLM responses
+3. **System Prompt Formatting**: Structuring agent goals for the LLM
+4. **Memory Management**: Formatting responses for conversation history
+
+### Available Agent Languages
+
+#### 1. Function Calling Language (`AgentFunctionCallingActionLanguage`)
+
+Uses structured JSON to encode actions - ideal for function-calling LLMs:
+
+```python
+from ai_agent import AgentFunctionCallingActionLanguage
+
+language = AgentFunctionCallingActionLanguage()
+
+# Format action as JSON
+action = language.format_action("read_file", {"file_name": "test.txt"})
+# Result: '{"tool_name": "read_file", "args": {"file_name": "test.txt"}}'
+
+# Parse action from LLM response
+action_name, args = language.parse_action(action)
+# Result: ("read_file", {"file_name": "test.txt"})
+```
+
+**Best for**: Agents using OpenAI's function calling, structured tool execution
+
+#### 2. Text-Only Language (`AgentTextLanguage`)
+
+Uses natural language descriptions - suitable for text-only interactions:
+
+```python
+from ai_agent import AgentTextLanguage
+
+language = AgentTextLanguage()
+
+# Format action as natural language
+action = language.format_action("read file", {"file_name": "test.txt"})
+# Result: "Action: read file with parameters: file_name=test.txt"
+
+# Parse action from text response
+action_name, args = language.parse_action(action)
+# Result: ("read file", {"file_name": "test.txt"})
+```
+
+**Best for**: Conversational agents, simple text-based interactions
+
+### Creating Custom Agent Languages
+
+Extend the `AgentLanguage` base class to create custom communication protocols:
+
+```python
+from ai_agent import AgentLanguage
+from typing import Any
+
+class CustomAgentLanguage(AgentLanguage):
+    """Custom XML-like format."""
+
+    def format_action(self, action_name: str, args: dict[str, Any]) -> str:
+        """Format action in custom format."""
+        args_str = " ".join(f'{k}="{v}"' for k, v in args.items())
+        return f'<action name="{action_name}" {args_str} />'
+
+    def parse_action(self, content: str) -> tuple[str, dict[str, Any]]:
+        """Parse custom format."""
+        # Implementation for parsing your format
+        import re
+        name_match = re.search(r'name="([^"]+)"', content)
+        # ... parsing logic
+        return action_name, args
+```
+
+### Using Agent Language in Agents
+
+```python
+from ai_agent import Agent, Goal, AgentFunctionCallingActionLanguage
+
+# Choose your agent language
+agent_language = AgentFunctionCallingActionLanguage()
+
+# Create agent with specific language
+agent = Agent(
+    goals=[Goal(priority=1, name="Task", description="Complete task")],
+    agent_language=agent_language,  # Specify communication protocol
+    action_registry=action_registry,
+    generate_response=generate_response,
+    environment=environment
+)
+```
+
+### Benefits of Agent Language
+
+- **Protocol Standardization**: Consistent communication patterns
+- **Easy Protocol Switching**: Change language without modifying agent logic
+- **Extensibility**: Create domain-specific communication formats
+- **Separation of Concerns**: Agent logic independent of LLM interface
+
+### Example Usage
+
+See `examples/agent_language_example.py` for comprehensive examples demonstrating:
+
+- Function calling language
+- Text-only language
+- Custom language implementation
+- Language comparison and selection
+
+```bash
+python examples/agent_language_example.py
+```
+
+### Exercise 4: Custom Agent Personality
 
 Create your own agent personality:
 
@@ -212,7 +490,7 @@ response = llm_client.chat(
 )
 ```
 
-### Exercise 3: Code Review Agent
+### Exercise 5: Code Review Agent
 
 ```python
 # Code review agent
@@ -244,6 +522,7 @@ pytest
 pytest tests/test_config.py
 pytest tests/test_llm_client.py
 pytest tests/test_agent_examples.py
+pytest tests/test_function_calling_agent.py
 
 # Run with coverage
 pytest --cov=ai_agent --cov-report=term-missing
@@ -260,6 +539,8 @@ Test coverage includes:
 - ✅ Conversation memory and context management
 - ✅ Message structure validation
 - ✅ Integration scenarios
+- ✅ Function calling and tool integration
+- ✅ Agent loop management and iteration control
 
 ## 💡 Advanced Patterns
 

@@ -1,4 +1,4 @@
-# 🧪 Python Learning Lab
+# 🧪 Python Learning Lab -
 
 A structured learning environment for mastering Python concepts, patterns, and best practices. Each lab is a self-contained mini-project with production-ready code, comprehensive tests, and educational content.
 
@@ -38,12 +38,54 @@ A lightweight publish/subscribe system with both synchronous and asynchronous im
 ### Lab 0004: AI Agent Framework
 
 **Status**: ✅ Complete
-**Concepts**: LLM Integration, Configuration Management, Agent Development
+**Concepts**: LLM Integration, Configuration Management, Agent Development, GAME Framework, Agent Language
 **Location**: `lessons/lab_0004_ai_agent/`
 
-A comprehensive framework for building AI-powered conversational agents. Learn to integrate Large Language Models, manage configurations, and create interactive AI applications with memory and context management.
+A comprehensive framework for building AI-powered conversational agents. Learn to integrate Large Language Models, manage configurations, and create interactive AI applications with memory and context management. Includes the GAME Framework (Goals, Actions, Memory, Environment) and Agent Language communication protocols for building modular, extensible agents.
+
+[View Lab 0004 →](lessons/lab_0004_ai_agent/README.md)
 
 ## 🚀 Recent Updates
+
+### GAME Framework & Agent Language (Lab 0004)
+
+**Lab 0004: AI Agent Framework** has been enhanced with the **GAME Framework** and **Agent Language** concepts for building modular, extensible AI agents:
+
+- ✅ **GAME Framework**: Goal-driven, Action-based, Memory-enabled, Environment-aware architecture
+- ✅ **Agent Language**: Abstract communication protocol for agent-LLM interactions
+- ✅ **Multiple Language Implementations**: Function calling (JSON) and text-only protocols
+- ✅ **Extensible Architecture**: Easy to create custom agent languages and communication patterns
+- ✅ **Comprehensive Testing**: 36 tests with 72% coverage of framework code
+
+**New Components:**
+
+1. **GAME Framework Core Classes**:
+   - `Goal`: Priority-based agent objectives
+   - `Action`: Structured tool/function definitions
+   - `ActionRegistry`: Centralized action management
+   - `Memory`: Conversation history and state tracking
+   - `Environment`: Agent execution context
+   - `Agent`: Orchestrates goal-driven agent execution
+
+2. **Agent Language System**:
+   - `AgentLanguage`: Abstract base class for communication protocols
+   - `AgentFunctionCallingActionLanguage`: JSON-based function calling protocol
+   - `AgentTextLanguage`: Natural language text-based protocol
+   - Extensible for custom communication formats (XML, YAML, etc.)
+
+3. **New Exercises & Examples**:
+   - `game_framework_exercise.py`: Hands-on GAME framework implementation
+   - `agent_language_example.py`: Demonstrates different communication protocols
+
+**Benefits:**
+
+- **Better Organization**: Clear separation of concerns (goals, actions, memory, environment)
+- **Reusability**: Swap components without changing core logic
+- **Extensibility**: Easy to add new goals, actions, and communication protocols
+- **Standard Interface**: Consistent way to interact with different agents
+- **Protocol Flexibility**: Switch between function calling and text-only modes as needed
+
+[View Framework Details →](lessons/lab_0004_ai_agent/README.md#-game-framework-exercise) | [Agent Language Guide →](lessons/lab_0004_ai_agent/README.md#-agent-language-communication-protocols)
 
 ### Pydantic V2 Migration (Lab 0005)
 
