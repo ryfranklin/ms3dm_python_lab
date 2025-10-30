@@ -58,6 +58,9 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
     "files.trimTrailingWhitespace": true
-  }
+  },
+
+  // pyton environment settings
+  "python.terminal.activateEnvironment": true
 }
 
