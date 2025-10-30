@@ -149,10 +149,6 @@ class AgentLanguage(ABC):
     and handling different types of agent-LLM interactions.
     """
 
-    def __init__(self) -> None:
-        """Initialize the agent language handler."""
-        pass
-
     @abstractmethod
     def format_action(self, action_name: str, args: dict[str, Any]) -> str:
         """Format an action for LLM interaction.
